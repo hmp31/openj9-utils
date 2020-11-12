@@ -17,7 +17,7 @@ These commands are passed to the agent on start up. The format of the commands s
 # Function Commands
 These commands are provided by either a commands file (see [Agent Start-Up Commands](#agent-start-up-commands)), or by a live client during runtime. These commands dictate what information the agent collects by either stopping or starting certain capabilities. 
 
-| Command | Associated Events | Expected Value | Description |
+| Command | Targets | Expected Value | Description |
 | --- | --- | --- | ---- |
 | start | monitorEvents, objectAllocEvents | Event Name | Start recording an event |
 | stop | monitorEvents, objectAllocEvents| Event Name | Stop recording an event |
@@ -28,26 +28,26 @@ All commands are provided in JSON format, where multiple commands are provided a
 ```
 [
   {
-    "functionality": "monitorEvents",
+    "target": "monitorEvents",
     "command": "start",
     "delay": 0
   },
   {
-    "functionality": "perf",
+    "target": "perf",
     "time": "1"
   },
   {
-    "functionality": "objectAllocEvents",
+    "target": "objectAllocEvents",
     "command": "start",
     "delay": 0
   },
   {
-    "functionality": "monitorEvents",
+    "target": "monitorEvents",
     "command": "stop",
     "delay": 4
   },
   {
-    "functionality": "objectAllocEvents",
+    "target": "objectAllocEvents",
     "command": "stop",
     "delay": 6
   }

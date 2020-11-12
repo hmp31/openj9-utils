@@ -156,9 +156,9 @@ void Server::execCommand(json command)
 {
     if (!command["delay"].is_null())
         sleep(command["delay"]);
-    if ((command["functionality"].get<std::string>()).compare("perf"))
+    if ((command["target"].get<std::string>()).compare("perf"))
     {
-        agentCommand(command["functionality"].get<std::string>(), command["command"].get<std::string>());
+        agentCommand(command["command"].get<std::string>(), command["target"].get<std::string>());
     }
     else
     {

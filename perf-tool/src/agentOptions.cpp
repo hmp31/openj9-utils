@@ -15,12 +15,12 @@
 #include "monitor.hpp"
 #include "objectalloc.hpp"
 
-void invalidCommand(std::string function, std::string command){
-    printf("Invalid command with parameters: {functionality: %s, command: %s}\n", function.c_str(), command.c_str() );
+void invalidCommand(char* target, std::string command){
+    printf("Invalid command with parameters: {functionality: %s, command: %s}\n", target, command.c_str() );
 }
 
 
-void modifyMonitorEvents(std::string function, std::string command){
+void modifyMonitorEvents(std::string command){
     jvmtiCapabilities capa;
     jvmtiError error;
 
@@ -57,7 +57,7 @@ void modifyMonitorEvents(std::string function, std::string command){
 }
 
 
-void modifyObjectAllocEvents(std::string function, std::string command){
+void modifyObjectAllocEvents(std::string command){
     jvmtiCapabilities capa;
     jvmtiError error;
 
@@ -94,17 +94,18 @@ void modifyObjectAllocEvents(std::string function, std::string command){
 
 }
 
-void modifyMonitorStackTrace(std::string function, std::string command){
+void modifyMonitorStackTrace(std::string command){
     // enable stack trace 
     if (!command.compare("start")){
         setMonitorStackTrace(true);
     } else if (!command.compare("stop")){
         setMonitorStackTrace(false);
     } else{
-        invalidCommand(function, command);
+        invalidCommand("monitorStackTrace", command);
     }
 }
-void modifyMethodEntryEvents(std::string function, std::string command){
+
+void modifyMethodEntryEvents(std::string command){
     jvmtiCapabilities capa;
     jvmtiError error;
 
@@ -135,7 +136,7 @@ void modifyMethodEntryEvents(std::string function, std::string command){
 
 
 
-void agentCommand(std::string function, std::string command){
+void agentCommand(std::string command, std::string target){
     jvmtiCapabilities capa;
     jvmtiError error;
     jvmtiPhase phase;
@@ -146,14 +147,14 @@ void agentCommand(std::string function, std::string command){
     } else{
          error = jvmti -> GetCapabilities(&capa);
         check_jvmti_error(jvmti, error, "Unable to get current capabilties");        
-        if(!function.compare("monitorEvents")){
-            modifyMonitorEvents(function, command);
-        } else if(!function.compare("objectAllocEvents")){
-            modifyObjectAllocEvents(function, command);    
-        } else if(!function.compare("monitorStackTrace")){
-            modifyMonitorStackTrace(function, command);
-        } else if(!function.compare("methodEntryEvents")){
-            modifyMethodEntryEvents(function, command);
+        if(!target.compare("monitorEvents")){
+            modifyMonitorEvents(command);
+        } else if(!target.compare("objectAllocEvents")){
+            modifyObjectAllocEvents(command);    
+        } else if(!target.compare("monitorStackTrace")){
+            modifyMonitorStackTrace(command);
+        } else if(!target.compare("methodEntryEvents")){
+            modifyMethodEntryEvents(command);
         }
     }
     return;
